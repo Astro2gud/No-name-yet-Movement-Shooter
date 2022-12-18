@@ -1,0 +1,39 @@
+using UnityEngine;
+
+public class Gun : MonoBehaviour
+{
+    // The projectile prefab used by the gun
+    public GameObject projectilePrefab;
+
+    // The force applied to the projectile when fired
+    public float fireForce = 1000.0f;
+
+    // The rate at which the gun can fire
+    public float fireRate = 0.5f;
+
+    // A timer for the fire rate
+    private float fireTimer = 0.0f;
+
+    void Update()
+    {
+        // Update the fire timer
+        fireTimer += Time.deltaTime;
+
+        // Check if the fire button has been pressed
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Check if the fire timer is greater than the fire rate
+            if (fireTimer >= fireRate)
+            {
+                // Reset the fire timer
+                fireTimer = 0.0f;
+
+                // Create a projectile at the gun's position and orientation
+                GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+
+                // Add force to the projectile in the direction that the gun is facing
+                projectile.GetComponent<Rigidbody>().AddForce(transform.forward * fireForce);
+            }
+        }
+    }
+}
