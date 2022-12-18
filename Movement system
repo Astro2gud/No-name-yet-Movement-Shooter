@@ -1,0 +1,34 @@
+public class PlayerController : MonoBehaviour
+{
+    public float speed = 10.0f;
+
+    public GameObject weapon;
+
+    public float fireForce = 1000.0f;
+
+    public GameObject projectilePrefab;
+
+    public Camera cam;
+
+    void Update()
+     {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+     
+        Vector3 movement = new Vector3(horizontal, 0.0f, vertical);
+
+        
+        transform.position += movement * speed * Time.deltaTime;
+
+        
+        if (Input.GetMouseButtonDown(0))
+        {
+           
+            GameObject projectile = Instantiate(projectilePrefab, weapon.transform.position, weapon.transform.rotation);
+
+            
+            projectile.GetComponent<Rigidbody>().AddForce(weapon.transform.forward * fireForce);
+        }
+    }
+}
