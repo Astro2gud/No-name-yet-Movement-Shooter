@@ -1,0 +1,41 @@
+
+public class PlayerController : MonoBehaviour
+{
+    // The speed at which the player moves
+    public float speed = 10.0f;
+
+    // The player's weapon
+    public GameObject weapon;
+
+    // The force applied to the weapon when fired
+    public float fireForce = 1000.0f;
+
+    // The projectile prefab used by the weapon
+    public GameObject projectilePrefab;
+
+    // A reference to the camera
+    public Camera cam;
+
+    void Update()
+    {
+        // Get input for movement
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        // Calculate movement
+        Vector3 movement = new Vector3(horizontal, 0.0f, vertical);
+
+        // Apply movement
+        transform.position += movement * speed * Time.deltaTime;
+
+        // Get input for weapon firing
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Create a projectile at the weapon's position and orientation
+            GameObject projectile = Instantiate(projectilePrefab, weapon.transform.position, weapon.transform.rotation);
+
+            // Add force to the projectile in the direction that the weapon is facing
+            projectile.GetComponent<Rigidbody>().AddForce(weapon.transform.forward * fireForce);
+        }
+    }
+}
